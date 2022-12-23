@@ -353,6 +353,12 @@ void Menu::LoadINI(std::string &filenameIni) {
 
     std::cout << "\n\nWczytano plik ini\n\n";
 
+    getline(File, outputfile);
+    getline(File, outputfile);
+    getline(File, outputfile);
+    getline(File, outputfile);
+    getline(File, outputfile);
+
     std::string inputLine;
     std::ofstream output;
     getline(File, outputfile);

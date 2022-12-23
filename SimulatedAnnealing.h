@@ -10,6 +10,8 @@ private:
     int coolingMethod;
     int swapMethod;
     int eraLength;
+    std::vector<int> results;
+    std::vector<int> counter;
     double startTemperature;
     double coolingCoefficient;
     double iteration;

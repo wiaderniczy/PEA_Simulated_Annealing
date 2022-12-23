@@ -50,9 +50,11 @@ void SimulatedAnnealing::algorithm(int startCost, std::vector<int> startPath){
     double temperature = startTemperature;
     int minCurrentCost = startCost;
 
+    int counter = 0;
+
     while (temperature > 1){
         std::vector<int> shuffled;
-        //EPOKA START vv
+
         for (int i = 0; i < eraLength;i++) {
             switch (swapMethod) {
                 case 1:
@@ -75,10 +77,11 @@ void SimulatedAnnealing::algorithm(int startCost, std::vector<int> startPath){
                 tempVector = shuffled;
                 minCurrentCost = currentCost;
             }
+            counter++;
+            this->results.push_back(minCurrentCost);
+            this->counter.push_back(counter);
         }
-        //EPOKA STOP ^^
 
-        //PO PRZEJSCIU JEDNEJ EPOKI
         switch(coolingMethod) {
             case 1:
                 temperature *= CalculateTemperatureBoltzmann();
@@ -194,7 +197,23 @@ void SimulatedAnnealing::autotests(int numberOfVertices, int ** vertices, int nu
 
     double geoCoolings[4] = {0.8, 0.99, 0.9999, 0.999999};
 
-    for (int j = 1; j < 3; j++){
+    coolingMethod = 2;
+    swapMethod = 2;
+    startTemperature = 1000;
+    eraLength = 100;
+    coolingCoefficient = 0.9999;
+
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+    algorithm(startCost, path);
+    std::chrono::high_resolution_clock::time_point stop = std::chrono::high_resolution_clock::now();
+    output << std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count() << std::endl;
+    for(int i = 0; i < this->results.size(); i++){
+        output << results.at(i) << ";" << counter.at(i) << std::endl;
+    }
+    results.clear();
+    counter.clear();
+
+    /*for (int j = 1; j < 3; j++){
         coolingMethod = j;
         std::cout<<"Cooling method: "<< j << std::endl;
         output << "Cooling method: " << j << std::endl;
@@ -247,7 +266,7 @@ void SimulatedAnnealing::autotests(int numberOfVertices, int ** vertices, int nu
             }
         }
     }
-
+*/
     output.close();
 }
 
